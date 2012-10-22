@@ -1,10 +1,12 @@
+
 <?php
 class UsersController extends AppController
 {
     var $name='Users';
     public $uses = array (
         'User',
-        'Question'
+        'Question',
+        'Result'
     );
 
     function user(){
@@ -18,11 +20,15 @@ class UsersController extends AppController
     	if(empty($result)){
     	// /$this->Session->setFlash("userid doesnt exists");
     	}
+       // pr($result);
+        
     	else{
-    		if(($data['User']['pass']) == ($result['User']['password'] )){
+    		if(($data['User']['pass']) == ($result['User']['password'])){
+
+                $this->Session->write('user_id' , $result['User']['id']);
+                $this->Session->write('user_name' , $result['User']['name']);
     			if($result['User']['type'] == 'u')
 	    			{  
-	    				$this->Session->setFlash("welcome ".$result['User']['name']);
 	    				$this->redirect(array('action' => 'cat'));
 					}
 				else{
@@ -44,10 +50,14 @@ class UsersController extends AppController
     }
 
     function cat()
-    {
+    { $name = $this->Session->read('user_name');
+        $this->set('name',$name);
     	if(!empty($this->data)){
+       
+       // $this->set('name',$name);
 		$this->Session->write('category' ,  $this->data['User']['CATEGORY'] );
         $this->Session->write('count' , 1);
+        $this->Session->write('result' , 0 );
 	 	$this->redirect(array(
             'action' => 'question'
             ));
@@ -56,22 +66,24 @@ class UsersController extends AppController
     } 
 
     function question(){ // fetch qn from queston model and pass result to result model
-       
+        $name = $this->Session->read('user_name');
+        $this->set('name',$name);
         $cat = $this->Session->read('category');
         $count = $this->Session->read('count');
-        if(empty($this->data)) {
-             $qns = $this->Question->select($cat , $count); 
-        }
-        else {
-                $cat = $this->Session->read('category');
-                $qns = $this->Question->select($cat , $count); // fetch qn
+        $result = $this->Session->read('result');
+         if(!empty($this->data))
+            {
+            		if($this->data['answer'] == $this->data['User']['option']){
+            		$result++;
+            		$this->Session->write('result' , $result);
+            		}
             }
-
+            $qns = $this->Question->select($cat , $count); 
+			
+            $cat = $this->Session->read('category');
             if($count > 2 )
                 {
-                   /*$this->Session->write('category ', 0 );*/
-                   $this->Session->setFlash("go to result");
-                   $this->redirect(array('action'=>'result')); // go to result page to show result
+                	$this->redirect(array('action'=>'result')); // go to result page to show result
                 }
             else
                 {
@@ -80,12 +92,27 @@ class UsersController extends AppController
                  $this->set('qns', $qns);
          }
     }
+             function result(){
+                 $name = $this->Session->read('user_name');
+                $this->set('name',$name);
+                $result = $this->Session->read('result');
+                $this->set('result',$result);
+              $all=$this->Question->all();
+              if(!empty($all))
+              {
+                $this->set('all', $all);
+              }
+                    }
 
-
-
-    function result(){
-
-    }
+            function prev_result()
+            {
+                $result = $this->Session->read('result');
+                 $category = $this->Session->read('category');
+                $user_id = $this->Session->read('user_id');
+                $current = date("d/m/y");
+                 $previous = $this->Result->display($result , $category , $user_id ,$current);
+                $this->set('display',$previous);
+            }
 }
 
 ?>

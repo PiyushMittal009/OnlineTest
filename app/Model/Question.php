@@ -12,6 +12,12 @@ function select($cat , $count){
              )
 		);
 		return $result;
+
 	}
+  function all()
+  {
+    $all = $this->find('all');
+    return $all;
+  }
 }
 ?>

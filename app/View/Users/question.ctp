@@ -1,6 +1,8 @@
 <html>
 <body>
-	<?php echo $this->Form->create('User',array('action'=>'question' ));
+	<?php 
+   echo 'welcome '.$name; 
+  echo $this->Form->create('User',array('action'=>'question' ));
 
 	//foreach ($qns as $result) {?>
 		<h1>Q.<?php echo $qns['Question']['id']; ?></h1>
@@ -17,6 +19,8 @@
     
         );
 ?>
+           <input type="hidden" value= "<?php echo $qns['Question']['answer']; ?>" name="answer" />
+
 		<!-- <input type="hidden" value= "<?php echo $cat; ?>" name="cat" />
         <input type="hidden" value= "<?php echo $count; ?>" name="count" /> -->
 <?php

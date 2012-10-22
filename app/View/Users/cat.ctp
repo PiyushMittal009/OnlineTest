@@ -1,6 +1,7 @@
 <html>
 <body><center>
-	<?php               echo $this->Form->create('User',array('action'=>'cat'));    
+	<?php     echo 'welcome '.$name;
+            echo $this->Form->create('User',array('action'=>'cat'));    
                            echo $this->Form->radio('CATEGORY',
                                array(
                                     '1'=>'PHP',

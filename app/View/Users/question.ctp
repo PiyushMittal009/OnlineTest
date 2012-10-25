@@ -5,7 +5,7 @@
   echo $this->Form->create('User',array('action'=>'question' ));
 
 	//foreach ($qns as $result) {?>
-		<h1>Q.<?php echo $qns['Question']['id']; ?></h1>
+		<h1>Q.<?php echo $counter-1 ?></h1>
 		<h2><?php echo $qns['Question']['question']; ?> </h2>
 <br>
 <?php 

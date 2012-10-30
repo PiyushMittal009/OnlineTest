@@ -14,12 +14,31 @@ function select($cat , $qno){
 		return $result;
 
 	}
-  function all($cat)
+
+  function add_qn($data = array())
+{
+
+$this->set(
+array(
+'question' => $data['User']['question'],
+'a' => $data['User']['a'],
+'b' => $data['User']['b'],
+'c' => $data['User']['c'],
+'d' => $data['User']['d'],
+'answer' => $data['User']['option'],
+'cat_id' => $data['User']['CATEGORY']
+
+)
+);
+$this->save();
+}
+
+  function all($cat , $qno_push)
   {
     $all = $this->find('all',array(
-      'order' => array('id ASC'),
       'conditions' => array(
-        'Question.cat_id' => $cat 
+        'Question.cat_id' => $cat ,
+        'Question.id' => $qno_push
         )));
     return $all;
   }

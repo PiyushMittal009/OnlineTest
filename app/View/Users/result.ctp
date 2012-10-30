@@ -1,15 +1,18 @@
 <html>
 <body>
-	 <?php echo 'welcome '.$name;?>
+	 <?php echo 'welcome '.$name;
+echo $this->Html->link('logout', array( 'action' => 'logout'));
+	 ?>
 <?php 
 echo $this->Form->create('User',array('action'=>'result' ));
 echo "<center><h4> Your Final Result:".$result."</h4></center>";
 echo "<br/><br/>";
+$qcount = 1;
 foreach ($all as $qns) {
 ?>
 <table align="center">
 	<tr>
-	<td colspan='2' width="100px"><h1>Q.<?php echo $qns['Question']['id']; ?></h1>
+	<td colspan='2' width="100px"><h1>Q.<?php echo $qcount; ?></h1>
 		<h2><?php echo $qns['Question']['question']; ?> </h2></td>
 	</tr>
 	<tr>
@@ -41,9 +44,12 @@ foreach ($all as $qns) {
 	</tr>
 </table>
 <?php 
+$qcount++;
 }
 echo $this->Html->link('Previous Result',  array('action'=>'prev_result'));
-echo $this->Form->end();?>
+echo $this->Form->end();
+echo $this->Html->link('Retry', array( 'action' => 'cat'));
+?>
 <br>
 	</body>
 </html>

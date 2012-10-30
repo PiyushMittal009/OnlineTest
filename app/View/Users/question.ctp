@@ -27,9 +27,9 @@
                   echo $this->Form->submit('next',
                      array(
                     'type' => 'submit',
-                    'name' => 'next'
-                     )
-                     );
+                    'name' => 'next',
+                    'id' => 'next'
+                     ));
                     ?>
 	<?php //} ?>
 
